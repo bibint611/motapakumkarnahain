@@ -1,406 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="NutriTrack"/>
-<meta name="theme-color" content="#0b1120"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NutriTrack AI</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:#0b1120;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overscroll-behavior:none;}
-button,input{font-family:inherit;}
-:root{--g:#34d399;--a:#f59e0b;--c:#06b6d4;--r:#ef4444;--p:#a78bfa;--m:#64748b;}
-#app{max-width:480px;margin:0 auto;}
-.page{display:none;padding:20px 16px 110px;}
-.page.active{display:block;}
-#setup-page{padding:40px 20px;}
-.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:18px;margin-bottom:14px;}
-.logo{font-size:30px;font-weight:800;background:linear-gradient(135deg,#34d399,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;}
-.logo-sub{color:#64748b;font-size:13px;text-align:center;margin-top:4px;margin-bottom:32px;}
-.lbl{font-size:11px;color:#64748b;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:7px;}
-.inp{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 14px;color:#e2e8f0;font-size:15px;outline:none;}
-.inp:focus{border-color:rgba(52,211,153,.4);}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
-.mb14{margin-bottom:14px;}
-.cta{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#34d399,#06b6d4);color:#0b1120;font-weight:800;font-size:17px;margin-top:8px;cursor:pointer;}
-.flex-row{display:flex;gap:10px;}
-.flex-wrap{display:flex;flex-wrap:wrap;gap:7px;}
-.g-btn{flex:1;padding:10px 0;border-radius:12px;border:none;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s;}
-.g-btn.on{background:linear-gradient(135deg,#34d399,#06b6d4);color:#0b1120;}
-.g-btn.off{background:rgba(255,255,255,.06);color:#64748b;}
-.a-btn{padding:7px 12px;border-radius:10px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;margin-bottom:5px;}
-.a-btn.on{background:linear-gradient(135deg,#34d399,#06b6d4);color:#0b1120;}
-.a-btn.off{background:rgba(255,255,255,.06);color:#94a3b8;}
-.stat-card{background:rgba(255,255,255,.04);border-radius:16px;padding:14px 10px;text-align:center;}
-.stat-num{font-size:20px;font-weight:800;line-height:1;}
-.stat-lbl{font-size:10px;color:#64748b;margin-top:3px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
-.ring-wrap{display:flex;align-items:center;gap:20px;}
-.tabs{display:flex;gap:6px;margin-bottom:18px;background:rgba(255,255,255,.04);border-radius:14px;padding:4px;}
-.tab-btn{flex:1;padding:9px 0;border-radius:10px;border:none;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;}
-.tab-btn.on{background:linear-gradient(135deg,#34d399,#06b6d4);color:#0b1120;}
-.tab-btn.off{background:transparent;color:#64748b;}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px;}
-.chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s;-webkit-user-select:none;user-select:none;}
-.chip:active{background:rgba(52,211,153,.15);}
-.chip-ex:active{background:rgba(245,158,11,.15);}
-.chip-name{font-size:12px;font-weight:600;line-height:1.3;}
-.chip-cal{font-size:11px;font-weight:700;}
-.log-row{display:flex;align-items:center;padding:11px 14px;background:rgba(255,255,255,.03);border-radius:12px;margin-bottom:7px;}
-.del-btn{background:none;border:none;color:#ef4444;font-size:22px;cursor:pointer;padding:0 4px;line-height:1;margin-left:6px;}
-.sec-title{font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
-.page-title{font-size:22px;font-weight:800;letter-spacing:-.5px;}
-.page-sub{font-size:13px;color:#64748b;margin-top:2px;margin-bottom:18px;}
-.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(11,17,32,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-around;padding:10px 0 max(18px,env(safe-area-inset-bottom));}
-.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:10px;font-weight:700;padding:0 16px;cursor:pointer;}
-.nav-btn.on{color:#34d399;}
-.nav-btn.off{color:#475569;}
-.nav-ico{font-size:22px;}
-
-/* AI Search */
-.ai-badge{font-size:11px;color:#34d399;background:rgba(52,211,153,.12);padding:2px 8px;border-radius:20px;font-weight:700;}
-.search-row{display:flex;gap:8px;margin-top:10px;}
-.search-inp{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px 14px;color:#e2e8f0;font-size:15px;outline:none;}
-.search-inp:focus{border-color:rgba(52,211,153,.4);}
-.search-btn{padding:11px 18px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(135deg,#34d399,#06b6d4);color:#0b1120;font-weight:800;font-size:14px;white-space:nowrap;}
-.search-btn:disabled{opacity:.6;cursor:not-allowed;}
-.search-result{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:background .15s;}
-.search-result:active{background:rgba(52,211,153,.15);}
-.spinner{display:inline-block;animation:spin 1s linear infinite;}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.loading-msg{margin-top:12px;text-align:center;color:#64748b;font-size:13px;}
-.error-msg{margin-top:10px;color:#ef4444;font-size:13px;}
-.results-hint{font-size:11px;color:#64748b;font-weight:700;margin-bottom:8px;margin-top:12px;text-transform:uppercase;letter-spacing:.06em;}
-
-/* Weekly */
-.bar-chart{display:flex;align-items:flex-end;gap:6px;height:80px;margin-bottom:8px;}
-.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.bar-pair{width:100%;display:flex;gap:2px;align-items:flex-end;height:64px;}
-.bar{flex:1;border-radius:3px 3px 0 0;transition:height .5s;min-height:0;}
-.bar-lbl{font-size:10px;font-weight:600;}
-.legend{display:flex;gap:14px;font-size:11px;color:#64748b;margin-top:4px;}
-.legend-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle;}
-.day-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:13px 15px;margin-bottom:10px;}
-.prog-bg{height:5px;background:rgba(255,255,255,.06);border-radius:4px;margin-top:7px;}
-.prog-fill{height:100%;border-radius:4px;transition:width .5s;}
-.empty{text-align:center;color:#475569;padding:40px 0;}
-.target-card{display:flex;align-items:center;gap:14px;}
+  body{font-family:sans-serif;margin:0;padding:0;background:#f5f5f5;color:#111;}
+  header{background:#34d399;color:white;padding:12px;text-align:center;font-size:1.5em;font-weight:700;}
+  .container{padding:16px;}
+  input, button{padding:8px 12px;font-size:16px;margin:4px 0;}
+  #search-results{margin-top:16px;}
+  .search-result{display:flex;align-items:center;padding:8px;background:white;margin-bottom:6px;border-radius:8px;cursor:pointer;transition:0.2s;}
+  .search-result:hover{background:#d1fae5;}
+  .results-hint{margin-bottom:8px;font-size:13px;color:#555;}
+  #search-loading{display:none;color:#34d399;font-weight:700;}
+  #search-error{display:none;color:red;font-weight:700;margin-top:6px;}
 </style>
 </head>
 <body>
-<div id="app">
 
-  <!-- ══ SETUP PAGE ══ -->
-  <div id="setup-page" class="page active">
-    <div class="logo">NutriTrack</div>
-    <div class="logo-sub">🤖 AI-powered · Indian &amp; international foods</div>
-    <div class="card">
-      <label class="lbl">Gender</label>
-      <div class="flex-row mb14">
-        <button class="g-btn on" id="btn-f" onclick="setGender('female')">♀ Female</button>
-        <button class="g-btn off" id="btn-m" onclick="setGender('male')">♂ Male</button>
-      </div>
-      <div class="row2">
-        <div><label class="lbl">Age</label><input class="inp" type="number" id="inp-age" value="28" min="10" max="100"/></div>
-        <div><label class="lbl">Weight (kg)</label><input class="inp" type="number" id="inp-wt" value="70" min="30" max="200"/></div>
-      </div>
-      <div class="mb14"><label class="lbl">Height (cm)</label><input class="inp" type="number" id="inp-ht" value="165" min="100" max="230"/></div>
-      <label class="lbl">Activity Level</label>
-      <div class="flex-wrap" id="act-wrap">
-        <button class="a-btn off" onclick="setAct(1.2,this)">Sedentary</button>
-        <button class="a-btn on"  onclick="setAct(1.375,this)">Light</button>
-        <button class="a-btn off" onclick="setAct(1.55,this)">Moderate</button>
-        <button class="a-btn off" onclick="setAct(1.725,this)">Active</button>
-        <button class="a-btn off" onclick="setAct(1.9,this)">Very Active</button>
-      </div>
-    </div>
-    <button class="cta" onclick="doSetup()">Calculate My Plan →</button>
-  </div>
+<header>NutriTrack AI</header>
 
-  <!-- ══ TODAY PAGE ══ -->
-  <div id="today-page" class="page">
-    <div class="page-title">Today's Log</div>
-    <div class="page-sub" id="today-date"></div>
-
-    <!-- Ring -->
-    <div class="card ring-wrap">
-      <svg id="ring-svg" width="100" height="100" style="transform:rotate(-90deg);flex-shrink:0">
-        <circle cx="50" cy="50" r="42" fill="none" stroke="#1e293b" stroke-width="10"/>
-        <circle id="ring-arc" cx="50" cy="50" r="42" fill="none" stroke="#34d399" stroke-width="10"
-          stroke-dasharray="263.9" stroke-dashoffset="263.9" stroke-linecap="round"
-          style="transition:stroke-dashoffset .6s ease,stroke .3s"/>
-      </svg>
-      <div style="position:absolute;width:100px;height:100px;display:flex;align-items:center;justify-content:center;pointer-events:none">
-        <div id="ring-pct" style="font-size:13px;font-weight:800;color:#34d399;text-align:center"></div>
-      </div>
-      <div>
-        <div id="ring-msg" style="font-size:17px;font-weight:800;margin-bottom:4px">—</div>
-        <div style="font-size:13px;color:#64748b">Target: <b id="lbl-tgt" style="color:#e2e8f0"></b></div>
-        <div style="font-size:13px;color:#64748b">TDEE: <b id="lbl-tdee" style="color:#e2e8f0"></b></div>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="row3">
-      <div class="stat-card" style="border:1px solid rgba(52,211,153,.2)"><div class="stat-num" id="st-in" style="color:#34d399">0</div><div class="stat-lbl">🍽 Eaten</div></div>
-      <div class="stat-card" style="border:1px solid rgba(245,158,11,.2)"><div class="stat-num" id="st-burn" style="color:#f59e0b">0</div><div class="stat-lbl">🔥 Burned</div></div>
-      <div class="stat-card" id="st-net-card" style="border:1px solid rgba(6,182,212,.2)"><div class="stat-num" id="st-net" style="color:#06b6d4">0</div><div class="stat-lbl">⚖ Net</div></div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn on"  onclick="setTab('food',this)">🍎 Food</button>
-      <button class="tab-btn off" onclick="setTab('exercise',this)">🏃 Exercise</button>
-      <button class="tab-btn off" onclick="setTab('log',this)">📋 Log</button>
-    </div>
-
-    <!-- Food Tab -->
-    <div id="tab-food">
-      <div class="card" style="padding:16px">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:18px">🤖</span>
-          <span style="font-weight:700;font-size:14px">AI Food Search</span>
-          <span class="ai-badge">Indian &amp; more</span>
-        </div>
-        <div class="search-row">
-          <input class="search-inp" id="ai-search" type="text" placeholder="dal makhani, biryani, dosa, idli..." onkeydown="if(event.key==='Enter')doAISearch()"/>
-          <button class="search-btn" id="search-btn" onclick="doAISearch()">Search</button>
-        </div>
-        <div id="search-loading" style="display:none" class="loading-msg"><span class="spinner">🔍</span> Finding nutrition info...</div>
-        <div id="search-error" class="error-msg" style="display:none"></div>
-        <div id="search-results"></div>
-      </div>
-
-      <div class="sec-title">Quick Add — Indian &amp; Common Foods</div>
-      <div class="grid2" id="food-grid"></div>
-    </div>
-
-    <!-- Exercise Tab -->
-    <div id="tab-exercise" style="display:none">
-      <div class="sec-title">Quick Add Exercise</div>
-      <div class="grid2" id="ex-grid"></div>
-    </div>
-
-    <!-- Log Tab -->
-    <div id="tab-log" style="display:none">
-      <div id="log-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ WEEKLY PAGE ══ -->
-  <div id="weekly-page" class="page">
-    <div class="page-title">Weekly Overview</div>
-    <div class="page-sub" id="w-sub"></div>
-    <div class="row3">
-      <div class="stat-card" style="border:1px solid rgba(52,211,153,.2)"><div class="stat-num" id="w-avg-in" style="color:#34d399">0</div><div class="stat-lbl">Avg In</div></div>
-      <div class="stat-card" style="border:1px solid rgba(245,158,11,.2)"><div class="stat-num" id="w-avg-burn" style="color:#f59e0b">0</div><div class="stat-lbl">Avg Burned</div></div>
-      <div class="stat-card" style="border:1px solid rgba(167,139,250,.2)"><div class="stat-num" id="w-deficit" style="color:#a78bfa">0</div><div class="stat-lbl">Deficit</div></div>
-    </div>
-    <div class="card">
-      <div class="sec-title">Calories In vs Burned</div>
-      <div class="bar-chart" id="bar-chart"></div>
-      <div class="legend">
-        <span><span class="legend-dot" style="background:#34d399"></span>Calories In</span>
-        <span><span class="legend-dot" style="background:#f59e0b"></span>Burned</span>
-      </div>
-    </div>
-    <div class="card">
-      <div class="target-card">
-        <div style="font-size:28px">🎯</div>
-        <div>
-          <div style="font-weight:700">Daily Target: <span id="w-tgt"></span> kcal</div>
-          <div style="font-size:13px;color:#64748b">500 kcal deficit · TDEE <span id="w-tdee2"></span> kcal</div>
-          <div style="font-size:13px;color:#a78bfa">~0.5 kg/week loss</div>
-        </div>
-      </div>
-    </div>
-    <div class="sec-title">Daily Breakdown</div>
-    <div id="day-breakdown"></div>
-  </div>
-
-</div>
-
-<!-- Bottom Nav -->
-<div class="nav-bar">
-  <button class="nav-btn on"  id="nav-today"  onclick="showPage('today')"><span class="nav-ico">🏠</span>Today</button>
-  <button class="nav-btn off" id="nav-weekly" onclick="showPage('weekly')"><span class="nav-ico">📊</span>Weekly</button>
-  <button class="nav-btn off" id="nav-profile" onclick="showPage('setup')"><span class="nav-ico">⚙️</span>Profile</button>
+<div class="container">
+  <input type="text" id="ai-search" placeholder="Search food or recipe...">
+  <button id="search-btn" onclick="doAISearch()">Search</button>
+  <span id="search-loading">Loading...</span>
+  <div id="search-error"></div>
+  <div id="search-results"></div>
 </div>
 
 <script>
-// ══ DATA ══════════════════════════════════════════════════════════════════════
-const QUICK_FOODS = [
-  {n:"Dal Tadka (1 cup)",c:180,e:"🍲"},{n:"Roti (1 piece)",c:80,e:"🫓"},
-  {n:"Steamed Rice (1 cup)",c:206,e:"🍚"},{n:"Paneer Butter Masala",c:280,e:"🧀"},
-  {n:"Idli (2 pcs)",c:130,e:"🍥"},{n:"Samosa (1 pc)",c:150,e:"🥟"},
-  {n:"Chicken Biryani (1c)",c:290,e:"🍛"},{n:"Curd (1 cup)",c:98,e:"🥛"},
-  {n:"Egg (boiled)",c:78,e:"🥚"},{n:"Banana",c:105,e:"🍌"},
-  {n:"Masala Dosa",c:210,e:"🥞"},{n:"Chana Masala (1c)",c:270,e:"🫘"},
-];
-const EXERCISES = [
-  {n:"Walking 30min",c:150,e:"🚶"},{n:"Running 30min",c:300,e:"🏃"},
-  {n:"Cycling 30min",c:250,e:"🚴"},{n:"Yoga 60min",c:120,e:"🧘"},
-  {n:"HIIT 20min",c:240,e:"⚡"},{n:"Strength 45min",c:180,e:"🏋️"},
-  {n:"Swimming 30min",c:200,e:"🏊"},{n:"Cricket 60min",c:270,e:"🏏"},
-];
-
-// ══ STATE ═════════════════════════════════════════════════════════════════════
-let G = {
-  gender:'female', age:28, weight:70, height:165, activity:1.375,
-  tdee:null, target:null,
-  foodLog:[], exLog:[],
-  history:{},
-  tab:'food', page:'setup'
-};
-let selAct = 1.375;
-
-function todayKey(){return new Date().toISOString().slice(0,10);}
-
-function saveData(){
-  try{
-    localStorage.setItem('nt3_profile', JSON.stringify({gender:G.gender,age:G.age,weight:G.weight,height:G.height,activity:G.activity,tdee:G.tdee,target:G.target}));
-    const ci=G.foodLog.reduce((s,f)=>s+f.c,0);
-    const cb=G.exLog.reduce((s,e)=>s+e.c,0);
-    G.history[todayKey()]={ci,cb,net:ci-cb};
-    localStorage.setItem('nt3_history', JSON.stringify(G.history));
-    localStorage.setItem('nt3_day_'+todayKey(), JSON.stringify({f:G.foodLog,e:G.exLog}));
-  }catch(err){}
-}
-
-function loadData(){
-  try{
-    const p=JSON.parse(localStorage.getItem('nt3_profile')||'null');
-    if(p){Object.assign(G,p); if(G.tdee) G.page='today';}
-    const h=JSON.parse(localStorage.getItem('nt3_history')||'null');
-    if(h) G.history=h;
-    const d=JSON.parse(localStorage.getItem('nt3_day_'+todayKey())||'null');
-    if(d){G.foodLog=d.f||[];G.exLog=d.e||[];}
-  }catch(err){}
-}
-
-// ══ SETUP ═════════════════════════════════════════════════════════════════════
-function setGender(g){
-  G.gender=g;
-  document.getElementById('btn-f').className='g-btn '+(g==='female'?'on':'off');
-  document.getElementById('btn-m').className='g-btn '+(g==='male'?'on':'off');
-}
-function setAct(v,btn){
-  selAct=v;
-  document.querySelectorAll('#act-wrap .a-btn').forEach(b=>b.className='a-btn off');
-  btn.className='a-btn on';
-}
-function doSetup(){
-  G.age=+document.getElementById('inp-age').value||28;
-  G.weight=+document.getElementById('inp-wt').value||70;
-  G.height=+document.getElementById('inp-ht').value||165;
-  G.activity=selAct;
-  const bmr = G.gender==='male'
-    ? 10*G.weight+6.25*G.height-5*G.age+5
-    : 10*G.weight+6.25*G.height-5*G.age-161;
-  G.tdee=Math.round(bmr*G.activity);
-  G.target=Math.round(G.tdee-500);
-  saveData();
-  showPage('today');
-}
-
-// ══ NAVIGATION ════════════════════════════════════════════════════════════════
-function showPage(p){
-  ['setup','today','weekly'].forEach(id=>
-    document.getElementById(id+'-page').classList.toggle('active',id===p));
-  ['today','weekly','profile'].forEach(id=>{
-    const on=(id==='today'&&p==='today')||(id==='weekly'&&p==='weekly')||(id==='profile'&&p==='setup');
-    document.getElementById('nav-'+id).className='nav-btn '+(on?'on':'off');
-  });
-  G.page=p;
-  if(p==='today') renderToday();
-  if(p==='weekly') renderWeekly();
-}
-
-function setTab(t,btn){
-  G.tab=t;
-  document.querySelectorAll('.tab-btn').forEach(b=>b.className='tab-btn off');
-  btn.className='tab-btn on';
-  ['food','exercise','log'].forEach(id=>
-    document.getElementById('tab-'+id).style.display=id===t?'block':'none');
-  if(t==='log') renderLog();
-}
-
-// ══ BUILD GRIDS ═══════════════════════════════════════════════════════════════
-function buildGrids(){
-  document.getElementById('food-grid').innerHTML = QUICK_FOODS.map((f,i)=>`
-    <div class="chip" onclick="addFoodItem('${f.n.replace(/'/g,"\\'")}',${f.c},'${f.e}')">
-      <span style="font-size:20px">${f.e}</span>
-      <div><div class="chip-name">${f.n}</div><div class="chip-cal" style="color:#34d399">${f.c} kcal</div></div>
-    </div>`).join('');
-  document.getElementById('ex-grid').innerHTML = EXERCISES.map((e,i)=>`
-    <div class="chip chip-ex" onclick="addExItem('${e.n.replace(/'/g,"\\'")}',${e.c},'${e.e}')">
-      <span style="font-size:20px">${e.e}</span>
-      <div><div class="chip-name">${e.n}</div><div class="chip-cal" style="color:#f59e0b">-${e.c} kcal</div></div>
-    </div>`).join('');
-}
-
-function addFoodItem(name,cal,emoji){
-  G.foodLog.push({n:name,c:cal,e:emoji,id:Date.now()+Math.random()});
-  saveData(); renderToday();
-}
-function addExItem(name,cal,emoji){
-  G.exLog.push({n:name,c:cal,e:emoji,id:Date.now()+Math.random()});
-  saveData(); renderToday();
-}
-function delFood(id){G.foodLog=G.foodLog.filter(f=>f.id!==id);saveData();renderToday();if(G.tab==='log')renderLog();}
-function delEx(id){G.exLog=G.exLog.filter(e=>e.id!==id);saveData();renderToday();if(G.tab==='log')renderLog();}
-
-// ══ AI SEARCH ═════════════════════════════════════════════════════════════════
 async function doAISearch(){
   const q = document.getElementById('ai-search').value.trim();
   if(!q) return;
+
   const btn = document.getElementById('search-btn');
   const loadEl = document.getElementById('search-loading');
   const errEl = document.getElementById('search-error');
   const resEl = document.getElementById('search-results');
 
-  btn.disabled=true; btn.textContent='...';
-  loadEl.style.display='block';
-  errEl.style.display='none';
-  resEl.innerHTML='';
+  btn.disabled = true; btn.textContent = '...';
+  loadEl.style.display = 'inline';
+  errEl.style.display = 'none';
+  resEl.innerHTML = '';
 
-  try{
-    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+  try {
+    const resp = await fetch('/.netlify/functions/ai-search', { // Netlify function path
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:800,
-        messages:[{role:'user',content:`You are a nutrition expert specializing in Indian and international cuisine.
-The user wants to log: "${q}"
-
-Return ONLY a JSON array (no markdown, no explanation, no backticks) of 1-4 matching food items.
-For Indian foods be specific about preparation. Include realistic serving sizes.
-
-Format exactly: [{"name":"Food Name (serving)","calories":number,"emoji":"single emoji"}]
-
-Examples:
-- "dal" → [{"name":"Dal Tadka (1 cup)","calories":180,"emoji":"🍲"},{"name":"Dal Makhani (1 cup)","calories":230,"emoji":"🍛"}]
-- "roti" → [{"name":"Plain Roti","calories":80,"emoji":"🫓"},{"name":"Butter Roti","calories":120,"emoji":"🫓"},{"name":"Paratha","calories":200,"emoji":"🥙"}]
-- "biryani" → [{"name":"Chicken Biryani (1 cup)","calories":290,"emoji":"🍛"},{"name":"Veg Biryani (1 cup)","calories":220,"emoji":"🍛"}]
-
-Return ONLY the JSON array, absolutely nothing else.`}]
-      })
+      body: JSON.stringify({ query: q })
     });
+
     const data = await resp.json();
-    const raw = data.content?.[0]?.text || '[]';
-    const clean = raw.replace(/```json|```/g,'').trim();
-    const items = JSON.parse(clean);
+
+    // Claude might wrap JSON in ```json blocks
+    const raw = data?.content?.[0]?.text || '[]';
+    const items = JSON.parse(raw.replace(/```json|```/g,'').trim());
 
     if(!items.length){
-      errEl.textContent='No results found. Try a different search.';
-      errEl.style.display='block';
+      errEl.textContent = 'No results found. Try a different search.';
+      errEl.style.display = 'block';
     } else {
       resEl.innerHTML = `<div class="results-hint">Tap to add to log</div>` +
-        items.map(r=>`
+        items.map(r => `
           <div class="search-result" onclick="addFromSearch('${r.name.replace(/'/g,"\\'")}',${r.calories},'${r.emoji}')">
             <span style="font-size:22px">${r.emoji}</span>
             <div style="flex:1"><div style="font-weight:600;font-size:14px">${r.name}</div></div>
@@ -408,185 +70,22 @@ Return ONLY the JSON array, absolutely nothing else.`}]
             <span style="color:#34d399;font-size:20px;font-weight:700">+</span>
           </div>`).join('');
     }
-  } catch(err){
-    errEl.textContent='Search failed. Please check your connection and try again.';
-    errEl.style.display='block';
+
+  } catch(err) {
+    errEl.textContent = 'Search failed. Please check your connection and try again.';
+    errEl.style.display = 'block';
+    console.error(err);
   }
 
-  btn.disabled=false; btn.textContent='Search';
-  loadEl.style.display='none';
+  btn.disabled = false; btn.textContent = 'Search';
+  loadEl.style.display = 'none';
 }
 
-function addFromSearch(name,cal,emoji){
-  G.foodLog.push({n:name,c:cal,e:emoji,id:Date.now()+Math.random()});
-  saveData(); renderToday();
-  document.getElementById('search-results').innerHTML='';
-  document.getElementById('ai-search').value='';
-  // Show a quick confirmation
-  const hint = document.querySelector('.results-hint');
-  if(hint) hint.remove();
-}
-
-// ══ RENDER TODAY ══════════════════════════════════════════════════════════════
-function renderToday(){
-  const ci=G.foodLog.reduce((s,f)=>s+f.c,0);
-  const cb=G.exLog.reduce((s,e)=>s+e.c,0);
-  const net=ci-cb;
-  const tgt=G.target||2000;
-  const over=net>tgt;
-  const rem=tgt-net;
-  const pct=Math.min((net/tgt)*100,100);
-
-  document.getElementById('today-date').textContent=
-    new Date().toLocaleDateString('en-AU',{weekday:'long',month:'long',day:'numeric'});
-
-  document.getElementById('st-in').textContent=ci;
-  document.getElementById('st-burn').textContent=cb;
-  document.getElementById('st-net').textContent=net;
-  document.getElementById('st-net').style.color=over?'#ef4444':'#06b6d4';
-  document.getElementById('st-net-card').style.borderColor=over?'rgba(239,68,68,.2)':'rgba(6,182,212,.2)';
-  document.getElementById('lbl-tgt').textContent=(G.target||'—')+' kcal';
-  document.getElementById('lbl-tdee').textContent=(G.tdee||'—')+' kcal';
-  document.getElementById('ring-msg').textContent=over?'⚠️ Over Budget':rem>0?rem+' kcal left':'✅ Goal met!';
-
-  const circ=2*Math.PI*42;
-  const offset=circ-(pct/100)*circ;
-  document.getElementById('ring-arc').setAttribute('stroke-dashoffset',offset);
-  document.getElementById('ring-arc').setAttribute('stroke',over?'#ef4444':'#34d399');
-  document.getElementById('ring-pct').textContent=Math.round(pct)+'%';
-  document.getElementById('ring-pct').style.color=over?'#ef4444':'#34d399';
-
-  if(G.tab==='log') renderLog();
-}
-
-function renderLog(){
-  let html='';
-  if(G.foodLog.length){
-    html+='<div class="sec-title">🍽 Food Log</div>';
-    html+=G.foodLog.map(f=>`
-      <div class="log-row">
-        <span style="font-size:18px">${f.e}</span>
-        <span style="flex:1;margin-left:10px;font-size:14px;font-weight:600">${f.n}</span>
-        <span style="color:#34d399;font-weight:700">+${f.c}</span>
-        <button class="del-btn" onclick="delFood(${f.id})">×</button>
-      </div>`).join('');
-  }
-  if(G.exLog.length){
-    html+='<div class="sec-title" style="margin-top:14px">🔥 Exercise Log</div>';
-    html+=G.exLog.map(e=>`
-      <div class="log-row">
-        <span style="font-size:18px">${e.e}</span>
-        <span style="flex:1;margin-left:10px;font-size:14px;font-weight:600">${e.n}</span>
-        <span style="color:#f59e0b;font-weight:700">-${e.c}</span>
-        <button class="del-btn" onclick="delEx(${e.id})">×</button>
-      </div>`).join('');
-  }
-  if(!G.foodLog.length&&!G.exLog.length){
-    html='<div class="empty"><div style="font-size:36px">📋</div><div style="margin-top:10px;font-size:14px">Nothing logged yet.<br/>Search a food or use Quick Add!</div></div>';
-  }
-  document.getElementById('log-content').innerHTML=html;
-}
-
-// ══ RENDER WEEKLY ════════════════════════════════════════════════════════════
-function getLast7(){
-  return Array.from({length:7},(_,i)=>{
-    const d=new Date(); d.setDate(d.getDate()-(6-i));
-    return d.toISOString().slice(0,10);
-  });
-}
-function fmtDate(s){
-  return new Date(s+'T00:00:00').toLocaleDateString('en-AU',{weekday:'short',month:'short',day:'numeric'});
-}
-function shortDay(s){
-  return new Date(s+'T00:00:00').toLocaleDateString('en-AU',{weekday:'short'});
-}
-
-function renderWeekly(){
-  const tgt=G.target||2000;
-  const last7=getLast7();
-  const today=todayKey();
-  const ci=G.foodLog.reduce((s,f)=>s+f.c,0);
-  const cb=G.exLog.reduce((s,e)=>s+e.c,0);
-  const liveH={...G.history,[today]:{ci,cb,net:ci-cb}};
-
-  const wData=last7.map(d=>({
-    date:d, short:shortDay(d), isToday:d===today,
-    ...(liveH[d]||{ci:0,cb:0,net:0})
-  }));
-
-  const logged=wData.filter(d=>d.ci>0).length;
-  const avgIn=logged?Math.round(wData.reduce((s,d)=>s+(d.ci||0),0)/logged):0;
-  const avgBurn=logged?Math.round(wData.reduce((s,d)=>s+(d.cb||0),0)/logged):0;
-  const totalDef=wData.reduce((s,d)=>s+Math.max(0,tgt-(d.net||0)),0);
-  const maxBar=Math.max(tgt*1.2,...wData.map(d=>d.ci||0),1);
-
-  document.getElementById('w-sub').textContent=logged+' of 7 days tracked';
-  document.getElementById('w-avg-in').textContent=avgIn;
-  document.getElementById('w-avg-burn').textContent=avgBurn;
-  document.getElementById('w-deficit').textContent=totalDef;
-  document.getElementById('w-tgt').textContent=tgt;
-  document.getElementById('w-tdee2').textContent=G.tdee||'—';
-
-  document.getElementById('bar-chart').innerHTML=wData.map(d=>{
-    const ih=Math.min(((d.ci||0)/maxBar)*100,100);
-    const bh=Math.min(((d.cb||0)/maxBar)*100,100);
-    const ic=d.isToday?'linear-gradient(180deg,#34d399,#06b6d4)':'#1e4d3d';
-    const bc=d.isToday?'#f59e0b':'#4a3500';
-    return `<div class="bar-col">
-      <div class="bar-pair">
-        <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
-          <div class="bar" style="height:${ih}%;background:${ic};min-height:${(d.ci||0)>0?3:0}px"></div>
-        </div>
-        <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
-          <div class="bar" style="height:${bh}%;background:${bc};min-height:${(d.cb||0)>0?3:0}px"></div>
-        </div>
-      </div>
-      <div class="bar-lbl" style="color:${d.isToday?'#34d399':'#475569'}">${d.short}</div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('day-breakdown').innerHTML=[...wData].reverse().map(d=>{
-    const netD=d.net||0;
-    const overD=netD>tgt;
-    const pctD=Math.min((netD/tgt)*100,100);
-    const empty=!d.ci&&!d.isToday;
-    const fill=overD?'linear-gradient(90deg,#f59e0b,#ef4444)':'linear-gradient(90deg,#34d399,#06b6d4)';
-    return `<div class="day-card" style="opacity:${empty?.45:1}">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="font-weight:700;font-size:14px;color:${d.isToday?'#34d399':'#e2e8f0'}">
-          ${d.isToday?'Today':fmtDate(d.date)}${empty?'<span style="color:#475569;font-weight:400;font-size:12px;margin-left:8px">No data</span>':''}
-        </span>
-        <div style="display:flex;gap:10px;font-size:12px">
-          <span style="color:#34d399">🍽 ${d.ci||0}</span>
-          <span style="color:#f59e0b">🔥 ${d.cb||0}</span>
-          <span style="color:${overD?'#ef4444':'#94a3b8'};font-weight:700">Net ${netD}</span>
-        </div>
-      </div>
-      <div class="prog-bg"><div class="prog-fill" style="width:${pctD}%;background:${fill}"></div></div>
-    </div>`;
-  }).join('');
-}
-
-// ══ INIT ══════════════════════════════════════════════════════════════════════
-loadData();
-buildGrids();
-
-if(G.tdee){
-  // Restore setup form
-  document.getElementById('inp-age').value=G.age;
-  document.getElementById('inp-wt').value=G.weight;
-  document.getElementById('inp-ht').value=G.height;
-  setGender(G.gender);
-  document.querySelectorAll('#act-wrap .a-btn').forEach(b=>b.className='a-btn off');
-  const actMap={1.2:0,1.375:1,1.55:2,1.725:3,1.9:4};
-  const btns=document.querySelectorAll('#act-wrap .a-btn');
-  if(btns[actMap[G.activity]]) btns[actMap[G.activity]].className='a-btn on';
-  selAct=G.activity;
-  showPage('today');
-} else {
-  document.getElementById('today-page').classList.remove('active');
-  document.getElementById('setup-page').classList.add('active');
+// Placeholder: implement your log functionality
+function addFromSearch(name, calories, emoji){
+  alert(`Added ${name} (${calories} kcal) ${emoji} to your log!`);
 }
 </script>
+
 </body>
 </html>
